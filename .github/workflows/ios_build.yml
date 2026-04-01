@@ -27,7 +27,7 @@ jobs:
         run: flutter build ios --release --no-codesign 
 
       - name: Upload Build Artifact
-        uses: actions/actions-runner@v4
+        uses: actions/upload-artifact@v4
         with:
           name: ios-build
           path: build/ios/iphoneos/Runner.app
