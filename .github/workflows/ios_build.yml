@@ -2,12 +2,14 @@ name: Flutter iOS Build
 
 on:
   push:
-    branches: [ main, master ] # Runs every time you push code
-  workflow_dispatch: # Allows you to run it manually
+    branches:
+      - main
+      - master
+  workflow_dispatch: # This allows you to click a button to run it
 
 jobs:
   build:
-    runs-on: macos-latest # Uses the latest macOS Sequoia/Sonoma
+    runs-on: macos-latest
     
     steps:
       - name: Checkout code
@@ -16,14 +18,13 @@ jobs:
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0' # The modern version
+          flutter-version: '3.24.0'
           channel: 'stable'
 
       - name: Install Dependencies
         run: flutter pub get
 
       - name: Build iOS IPA
-        # --no-codesign allows us to build without your Apple Developer keys for now
         run: flutter build ios --release --no-codesign 
 
       - name: Upload Build Artifact
