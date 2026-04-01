@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "285337494679",
+    "project_id": "quantitysavers",
+    "storage_bucket": "quantitysavers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285337494679:android:e638b67cb657b0b12735d2",
+        "android_client_info": {
+          "package_name": "com.hf.quantitysavers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "285337494679-rp054is62s93l9eihej42nhr6bbbnbp3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hf.quantitysavers",
+            "certificate_hash": "734ea6e0644fb9cc20a918edf153169d383316e5"
+          }
+        },
+        {
+          "client_id": "285337494679-bk275k8tkfqe288qufe4d14vuvpsi2eu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjP1l5wUid6pTmbZzT4mRH5Q0SaADzhxs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "285337494679-bk275k8tkfqe288qufe4d14vuvpsi2eu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
