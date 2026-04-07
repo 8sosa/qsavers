@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     # UPDATED: Use macos-15 (Osprey) for 2026 stability and Xcode 16/17 support
-    runs-on: macos-14
+    runs-on: macos-15
     
     steps:
       - name: Checkout code
@@ -39,6 +39,9 @@ jobs:
           pod deintegrate
           pod install --repo-update
           cd ..
+
+      - name: Install iOS 18 SDK
+        run: sudo xcodebuild -downloadPlatform iOS
 
       - name: Build iOS IPA
         run: flutter build ios --release --no-codesign --no-tree-shake-icons
