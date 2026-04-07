@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     # UPDATED: Use macos-15 (Osprey) for 2026 stability and Xcode 16/17 support
-    runs-on: macos-15
+    runs-on: macos-14
     
     steps:
       - name: Checkout code
