@@ -5,11 +5,12 @@ on:
     branches:
       - main
       - master
-  workflow_dispatch: # This allows you to click a button to run it
+  workflow_dispatch: 
 
 jobs:
   build:
-    runs-on: macos-latest
+    # UPDATED: Use macos-15 (Osprey) for 2026 stability and Xcode 16/17 support
+    runs-on: macos-15
     
     steps:
       - name: Checkout code
@@ -20,22 +21,28 @@ jobs:
         with:
           flutter-version: '3.24.0'
           channel: 'stable'
+          cache: true
 
       - name: Install Dependencies
         run: |
           flutter pub get
           cd ios
+          # DEEP CLEAN: Ensures no old FFmpeg versions are cached in the cloud
           rm -rf Pods
           rm -rf Podfile.lock
+          rm -rf .symlinks
           pod repo update
-          pod install || pod install --repo-update
+          # Use --repo-update to find the new FFmpegKit links
+          pod install --repo-update
           cd ..
 
       - name: Build iOS IPA
+        # This builds the 'Runner.app' which is enough for a "Success" check
         run: flutter build ios --release --no-codesign 
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-build
+          name: ios-build-debug
           path: build/ios/iphoneos/Runner.app
+          retention-days: 3
