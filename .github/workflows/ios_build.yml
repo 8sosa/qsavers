@@ -41,8 +41,12 @@ jobs:
       - name: Build iOS IPA
         run: |
           rm -rf build
-          flutter build ios --release --no-codesign --no-tree-shake-icons \
-            --xcargs "GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS=NO CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO"
+          flutter build ios --release --no-codesign --no-tree-shake-icons
+        env:
+          # This passes the flags directly to Xcode's compiler
+          OTHER_CFLAGS: "-Wno-deprecated-declarations -Wno-incomplete-implementation"
+          GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS: "NO"
+          CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER: "NO"
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
