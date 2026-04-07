@@ -44,6 +44,9 @@ post_install do |installer|
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
       config.build_settings['SWIFT_VERSION'] = '5.0'
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'HAVE_INTTYPES_H', 'HAVE_STDINT_H']
+      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++11'
+      config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
       
       # FIX FOR AGORA: Prevents the linker from stripping necessary RTC symbols
       config.build_settings['OTHER_LDFLAGS'] = '$(inherited) -force_load $(PODS_ROOT)/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework/ios-arm64_armv7/AgoraRtcKit.framework/AgoraRtcKit'
