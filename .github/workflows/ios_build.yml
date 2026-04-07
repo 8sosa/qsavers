@@ -35,8 +35,7 @@ jobs:
           cd ..
 
       - name: Build iOS IPA
-        # This builds the 'Runner.app' which is enough for a "Success" check
-        run: flutter build ios --release --no-codesign 
+        run: flutter build ios --release --no-codesign --no-tree-shake-icons
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4

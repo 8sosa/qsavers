@@ -4,7 +4,7 @@ import Flutter
 import flutter_local_notifications
 import app_links
 
-@main // Use @main instead of @UIApplicationMain
+@main 
 @objc class AppDelegate: FlutterAppDelegate, FlutterImplicitEngineDelegate {
   
   override func application(
@@ -13,7 +13,9 @@ import app_links
   ) -> Bool {
     FirebaseApp.configure()
 
-    // Set the notification delegate
+    // REMOVED: GeneratedPluginRegistrant.register(with: self) 
+    // This is now handled in the method below.
+
     UNUserNotificationCenter.current().delegate = self
 
     if let url = AppLinks.shared.getLink(launchOptions: launchOptions) {
@@ -24,17 +26,16 @@ import app_links
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 
-  // NEW: Modern Flutter plugin registration lives here now
+  // This is the correct modern entry point for plugins
   func didInitializeImplicitFlutterEngine(_ engineBridge: FlutterImplicitEngineBridge) {
     GeneratedPluginRegistrant.register(with: engineBridge.pluginRegistry)
     
-    // Specifically for local notifications background handling
+    // Background notifications handler
     FlutterLocalNotificationsPlugin.setPluginRegistrantCallback { (registry) in
       GeneratedPluginRegistrant.register(with: registry)
     }
   }
 
-  // Handle foreground notifications
   override func userNotificationCenter(
     _ center: UNUserNotificationCenter, 
     willPresent notification: UNNotification, 
