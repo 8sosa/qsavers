@@ -42,27 +42,25 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
     
     target.build_configurations.each do |config|
-      # 1. Essential Versioning & standard fixes
+      # 1. Standard build settings
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
       config.build_settings['SWIFT_VERSION'] = '5.0'
       
-      # 2. Agora/Iris C++ Standard fix
+      # 2. Fix C++ errors for Agora/Iris
       config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++14'
       config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'HAVE_INTTYPES_H', 'HAVE_STDINT_H']
 
-      # 3. --- THE XCODE 16 FATAL ERROR OVERRIDE ---
-      # This forces Xcode to treat the "Implicit Function" and "Strict Prototype" 
-      # issues in your older plugins as warnings instead of build-breaking errors.
+      # 3. FORCE XCODE 16 COMPATIBILITY
+      # This addresses the "Strict Prototypes" and "Implicit Function" errors in your logs
       config.build_settings['GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS'] = 'NO'
       config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
-      config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
       
-      # Explicitly turn off the specific flags causing 'Exit Code 1' in your logs
-      config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-ambiguous-macro -Wno-deprecated-declarations -Wno-incomplete-implementation -Wno-strict-prototypes -Wno-implicit-function-declaration'
-      # --------------------------------------------
+      # These two lines are critical for bypassing fatal errors in older plugins
+      config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-deprecated-declarations -Wno-incomplete-implementation -Wno-strict-prototypes -Wno-implicit-function-declaration'
+      config.build_settings['OTHER_SWIFT_FLAGS'] = '$(inherited) -suppress-warnings'
 
-      # Your required Agora LDFLAGS
+      # 4. Agora LDFLAGS Fix
       config.build_settings['OTHER_LDFLAGS'] = '$(inherited) -force_load $(PODS_ROOT)/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework/ios-arm64_armv7/AgoraRtcKit.framework/AgoraRtcKit'
     end
   end
