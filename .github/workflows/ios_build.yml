@@ -40,7 +40,6 @@ jobs:
 
       - name: Build iOS IPA
         run: |
-          # Only clear the build folder to ensure a fresh start
           rm -rf build
           flutter build ios --release --no-codesign --no-tree-shake-icons
 
