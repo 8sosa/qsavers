@@ -40,8 +40,9 @@ jobs:
 
       - name: Build iOS IPA
         run: |
-          rm -rf ~/Library/Developer/Xcode/DerivedData
-          flutter build ios --release --no-codesign --no-tree-shake-icons --sdk iphoneos
+          rm -rf build
+          flutter build ios --release --no-codesign --no-tree-shake-icons \
+            --xcargs "GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS=NO CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER=NO"
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
