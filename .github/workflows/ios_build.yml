@@ -27,12 +27,11 @@ jobs:
         run: |
           flutter pub get
           cd ios
-          # DEEP CLEAN: Ensures no old FFmpeg versions are cached in the cloud
+          # ADDED: Clear local pod cache to force the new fork links
+          pod cache clean 'ffmpeg-kit-ios-full' --all 
           rm -rf Pods
           rm -rf Podfile.lock
-          rm -rf .symlinks
           pod repo update
-          # Use --repo-update to find the new FFmpegKit links
           pod install --repo-update
           cd ..
 

@@ -122,7 +122,11 @@ dependencies:
   video_compress: ^3.1.2
   chewie: ^1.8.0
   auto_orientation: ^2.3.1
-  ffmpeg_kit_flutter_full: ^6.0.3
+  ffmpeg_kit_flutter_full:
+    git:
+      url: https://github.com/Sahad2701/ffmpeg-kit.git
+      path: flutter/flutter
+      ref: flutter_fix_retired_v6.0.3
 
 
 dev_dependencies:
