@@ -42,19 +42,23 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
     
     target.build_configurations.each do |config|
-      # Force deployment target to 14.0
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
       config.build_settings['SWIFT_VERSION'] = '5.0'
       
-      # FIX FOR IRIS/AGORA C++ ERRORS:
-      # std::make_unique requires C++14 or higher
+      # Existing C++ Fixes
       config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++14'
       config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
-      
-      # Fixes "no member named 'make_unique' in namespace 'std'"
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'HAVE_INTTYPES_H', 'HAVE_STDINT_H']
 
-      # Your existing Agora Fix
+      # --- ADD THESE NEW LINES TO FIX XCODE 16 ERRORS ---
+      # 1. Don't treat deprecations as errors
+      config.build_settings['GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS'] = 'NO'
+      # 2. Fix for "Quoted include in framework header" error
+      config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
+      # 3. Tell the compiler to ignore specific warning types that are failing
+      config.build_settings['OTHER_CFLAGS'] = '$(inherited) -Wno-ambiguous-macro -Wno-deprecated-declarations'
+      # -------------------------------------------------
+
       config.build_settings['OTHER_LDFLAGS'] = '$(inherited) -force_load $(PODS_ROOT)/AgoraRtcEngine_iOS/AgoraRtcKit.xcframework/ios-arm64_armv7/AgoraRtcKit.framework/AgoraRtcKit'
     end
   end

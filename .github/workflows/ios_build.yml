@@ -39,7 +39,9 @@ jobs:
           cd ..
 
       - name: Build iOS IPA
-        run: flutter build ios --release --no-codesign --no-tree-shake-icons
+        run: |
+          rm -rf ~/Library/Developer/Xcode/DerivedData
+          flutter build ios --release --no-codesign --no-tree-shake-icons --sdk iphoneos
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
