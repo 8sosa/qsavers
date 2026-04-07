@@ -30,9 +30,11 @@ jobs:
         run: |
           flutter pub get
           cd ios
-          rm -rf Podfile.lock
+          # Deep clean CocoaPods
           rm -rf Pods
+          rm -rf Podfile.lock
           rm -rf .symlinks
+          rm -rf Flutter/Flutter.podspec
           pod cache clean --all
           pod deintegrate
           pod install --repo-update
